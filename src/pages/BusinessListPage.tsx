@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 function BusinessListPage() {
   const { loggedInUser } = useAuth();
+
   return (
     <>
       <h1>BusinessListPage</h1>
