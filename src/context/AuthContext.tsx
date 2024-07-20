@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }: childrenPropsType) => {
     undefined
   );
   const [token, setToken] = useLocalStorage<string | null>("jwt-taskify", null);
-  // const { modal, setModal } = useModalContext();
 
   const navigate = useNavigate();
 
@@ -81,27 +80,18 @@ export const AuthProvider = ({ children }: childrenPropsType) => {
 
   async function login(userData: UserCradantial) {
     try {
-      const response = await api.post("/auth/login", userData);
+      const response = await api.post("/user/login", userData);
+
       setToken(response.data.token);
-      navigate("/tasks");
+      navigate("/bsnss");
     } catch (error) {
       console.error("Error logging in:", error);
-    }
-
-    try {
-      const newActivity = {
-        operation: "Login",
-        description: "User logged-in",
-      };
-      await api.post("/activity", newActivity);
-    } catch (error) {
-      console.log(error);
     }
   }
 
   async function register(userData: UserToRegister) {
     try {
-      await api.post("/auth/register", userData);
+      await api.post("/user/register", userData);
     } catch (error) {
       console.error("Error registering:", error);
     }
