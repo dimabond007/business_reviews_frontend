@@ -4,3 +4,16 @@ export interface Buisness {
   description: string;
   imageUrl: string;
 }
+
+export interface Review {
+  _id: string;
+  content: string;
+  business: string;
+  user: userReview;
+  likes: number;
+}
+
+interface userReview {
+  _id: string;
+  username: string;
+}
