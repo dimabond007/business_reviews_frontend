@@ -10,6 +10,7 @@ import BusinessLayout from "./pages/layouts/BusinessLayout";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./pages/layouts/AuthLayout";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 function App() {
   const { loggedInUser } = useAuth();
@@ -37,7 +38,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="max-w-3xl m-auto">
+      <div className=" m-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -67,6 +68,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        <Footer />
       </div>
     </>
   );

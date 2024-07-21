@@ -11,6 +11,8 @@
     "shad": "npx shadcn-ui@latest add"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@uidotdev/usehooks": "^2.4.1",
