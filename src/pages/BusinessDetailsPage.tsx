@@ -2,11 +2,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/services/api.service";
 import { Buisness, Review } from "@/types/types";
-import { Heart } from "lucide-react";
+import { Heart, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import MyMapComponent from "@/components/MyMapComponent";
+import { Input } from "@/components/ui/input";
 
 // const API_KEY = "AIzaSyAcnV2yGM1jOC2mn7g9cJ5nwS5fqwlFaZg";
 
@@ -15,6 +15,9 @@ function BusinessDetailsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const { bsnssId } = useParams();
   const { loggedInUser } = useAuth();
+  const [isUpdateReviewInput, setIsUpdateReviewInput] = useState<
+    false | string
+  >(false);
 
   async function getBusiness() {
     try {
@@ -40,6 +43,8 @@ function BusinessDetailsPage() {
   }, []);
 
   if (!business) return <div>Loading...</div>;
+
+  async function handleUpdateReview(reviewId: string) {}
 
   return (
     <div>
@@ -79,9 +84,24 @@ function BusinessDetailsPage() {
                           {review.user.username.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="flex flex-col justify-between">
+                      <div className="flex flex-col justify-between items">
                         <p className="font-bold">{review.user.username}</p>
-                        <p>{review.content}</p>
+                        <div className="flex gap-2 items-center">
+                          {isUpdateReviewInput === review._id ? (
+                            <Input />
+                          ) : (
+                            <p>{review.content}</p>
+                          )}
+                          {loggedInUser &&
+                            loggedInUser._id === review.user._id && (
+                              <Pencil
+                                className="cursor-pointer size-5"
+                                onClick={() =>
+                                  setIsUpdateReviewInput(review._id)
+                                }
+                              />
+                            )}
+                        </div>
                       </div>
                     </div>
                     <p className="flex items-center gap-2">
