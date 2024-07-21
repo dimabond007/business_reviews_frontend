@@ -15,6 +15,7 @@ function BusinessListPage() {
       try {
         const { data: fetchedBusinesses } = await api.get(BUISNESS_URL);
         setBuisnesses(fetchedBusinesses);
+        console.log(buisnesses);
       } catch (error) {
         console.log(error);
       }
@@ -30,6 +31,7 @@ function BusinessListPage() {
           return (
             <li key={buisness._id}>
               <div className="w-52 border p-2 min-h-40">
+                <img src={buisness.image} alt="imageName" />
                 <p>{buisness.name}</p>
                 <p>{buisness.description}</p>
               </div>

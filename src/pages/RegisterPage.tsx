@@ -21,6 +21,7 @@ function RegisterPage() {
     const username = formData.get("username");
     const password = formData.get("password");
     const data = { email, username, password };
+    console.log(data);
 
     register(data);
   }
@@ -37,7 +38,7 @@ function RegisterPage() {
               <Label htmlFor="email">Email:</Label>
               <Input
                 id="email"
-                type="text"
+                type="email"
                 name="email"
                 placeholder="Enter email..."
               />
@@ -56,12 +57,12 @@ function RegisterPage() {
               <Label htmlFor="password">Password:</Label>
               <Input
                 id="password"
-                type="text"
+                type="password"
                 name="password"
                 placeholder="Enter password..."
               />
             </div>
-            <Button type="submit">Sign-in</Button>
+            <Button type="submit">Register</Button>
           </CardContent>
           <CardFooter>
             <p>
