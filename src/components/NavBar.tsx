@@ -17,6 +17,9 @@ function NavBar() {
           style={({ isActive }) =>
             isActive ? { textDecoration: "underline" } : {}
           }
+          style={({ isActive }) =>
+            isActive ? { textDecoration: "underline" } : {}
+          }
         >
           RevieU
         </NavLink>
@@ -28,6 +31,9 @@ function NavBar() {
               style={({ isActive }) =>
                 isActive ? { textDecoration: "underline" } : {}
               }
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline" } : {}
+              }
             >
               Contact Us
             </NavLink>
@@ -36,6 +42,9 @@ function NavBar() {
             <NavLink
               to="/about"
               className="hover:text-gray-300 transition-colors"
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline" } : {}
+              }
               style={({ isActive }) =>
                 isActive ? { textDecoration: "underline" } : {}
               }
@@ -66,6 +75,9 @@ function NavBar() {
                   style={({ isActive }) =>
                     isActive ? { textDecoration: "underline" } : {}
                   }
+                  style={({ isActive }) =>
+                    isActive ? { textDecoration: "underline" } : {}
+                  }
                 >
                   Register
                 </NavLink>
@@ -74,6 +86,9 @@ function NavBar() {
                 <NavLink
                   to="/auth/login"
                   className="hover:text-gray-300 transition-colors"
+                  style={({ isActive }) =>
+                    isActive ? { textDecoration: "underline" } : {}
+                  }
                   style={({ isActive }) =>
                     isActive ? { textDecoration: "underline" } : {}
                   }

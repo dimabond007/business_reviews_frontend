@@ -22,12 +22,25 @@ function BusinessDetailsPage() {
   return (
     <div>
       <div className="relative">
-        <img src={`/src/images/${business.imageUrl}`} alt="" />
-        <div className="absolute top-0 left-0 content-center w-full h-full bg-black bg-opacity-30">
-          <div className="flex  justify-center  text-white ">
-            {business.name}
+        <div>
+          <img
+            src={`/src/images/${business.imageUrl}`}
+            alt=""
+            className="w-full"
+          />
+        </div>
+        <div className="absolute top-0 left-0 content-center w-full h-full bg-black bg-opacity-50">
+          <div className="flex flex-col text-center justify-center  text-accent-foreground ">
+            <div className="text-5xl font-black">{business.name}</div>
+            <div>{business.description}</div>
           </div>
         </div>
+      </div>
+      <div>
+        {/* mapa */}
+        <div></div>
+        {/* reviews */}
+        <div></div>
       </div>
     </div>
   );
