@@ -1,7 +1,11 @@
 import api from "@/services/api.service";
 import { Buisness } from "@/types/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import MyMapComponent from "@/components/MyMapComponent";
+
+// const API_KEY = "AIzaSyAcnV2yGM1jOC2mn7g9cJ5nwS5fqwlFaZg";
 
 function BusinessDetailsPage() {
   const [business, setBuisness] = useState<Buisness | null>(null);
@@ -17,6 +21,7 @@ function BusinessDetailsPage() {
     }
     getBusiness();
   }, []);
+
   if (!business) return <div>Loading...</div>;
 
   return (
@@ -38,7 +43,10 @@ function BusinessDetailsPage() {
       </div>
       <div>
         {/* mapa */}
-        <div></div>
+        <div>
+          <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
+          {/* <MyMapComponent address="ha-atsmaut 80, kiryat ata" /> */}
+        </div>
         {/* reviews */}
         <div></div>
       </div>
