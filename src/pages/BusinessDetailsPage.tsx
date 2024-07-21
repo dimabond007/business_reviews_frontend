@@ -2,10 +2,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/services/api.service";
 import { Buisness, Review } from "@/types/types";
-import { Heart, Pencil } from "lucide-react";
+import { Heart, Pencil, Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MyMapComponent from "@/components/MyMapComponent";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 // const API_KEY = "AIzaSyAcnV2yGM1jOC2mn7g9cJ5nwS5fqwlFaZg";
@@ -15,6 +16,8 @@ function BusinessDetailsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const { bsnssId } = useParams();
   const { loggedInUser } = useAuth();
+  const [isAddingInput, setIsAddInput] = useState(false);
+  const [newReviewContent, setNewReviewContent] = useState("");
   const [isUpdateReviewInput, setIsUpdateReviewInput] = useState<
     false | string
   >(false);
@@ -37,13 +40,44 @@ function BusinessDetailsPage() {
     }
   }
 
+  async function handleAdd() {
+    if (!loggedInUser) {
+      alert("You need to be logged in to add a review.");
+      return;
+    }
+    const review = {
+      content: newReviewContent,
+      user: loggedInUser._id,
+    };
+
+    try {
+      await api.post(`/business/${bsnssId}/reviews`, review);
+      fetchReviews();
+      setIsAddInput(false);
+      setNewReviewContent("");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getBusiness();
     fetchReviews();
   }, []);
 
   if (!business) return <div>Loading...</div>;
-
+  const isAddingContent = (
+    <div>
+      <div>Create Review</div>
+      <Input
+        placeholder="Enter review"
+        value={newReviewContent}
+        onChange={(e) => setNewReviewContent(e.target.value)}
+      />{" "}
+      <Button onClick={handleAdd}>Add Review</Button>
+      <Button onClick={() => setIsAddInput(false)}>Cancel</Button>
+    </div>
+  );
   async function handleUpdateReview(reviewId: string) {}
 
   return (
@@ -63,7 +97,7 @@ function BusinessDetailsPage() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="">
         {/* mapa */}
         <div>
           <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
@@ -71,8 +105,14 @@ function BusinessDetailsPage() {
         </div>
         {/* reviews */}
         <div>
-          <ul className="flex flex-col justify-between gap-5 p-4">
-            <h1>Reviews</h1>
+          {isAddingInput ? isAddingContent : ""}
+          <ul className="flex  flex-col justify-between gap-5 p-4">
+            <div className="flex justify-between items-center">
+              <h1>Reviews</h1>
+              <Button onClick={() => setIsAddInput(!isAddingInput)}>
+                {isAddingInput ? <Minus /> : <Plus />}
+              </Button>
+            </div>
             {reviews.map((review) => {
               return (
                 <li key={review._id}>
