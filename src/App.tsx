@@ -37,35 +37,37 @@ function App() {
   return (
     <>
       <NavBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactUsPage />} />
-        <Route
-          path="/auth"
-          element={
-            <ProtectedLoggedOutRoute>
-              <AuthLayout />
-            </ProtectedLoggedOutRoute>
-          }
-        >
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-        </Route>
-        <Route
-          path="/bsnss"
-          element={
-            <ProtectedLoggedInRoute>
-              <BusinessLayout />
-            </ProtectedLoggedInRoute>
-          }
-        >
-          <Route index element={<BusinessListPage />} />
-          <Route path=":bsnssId" element={<BusinessListPage />}>
-            <Route index element={<BusinessDetailsPage />} />
+      <div className="max-w-3xl m-auto">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactUsPage />} />
+          <Route
+            path="/auth"
+            element={
+              <ProtectedLoggedOutRoute>
+                <AuthLayout />
+              </ProtectedLoggedOutRoute>
+            }
+          >
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
           </Route>
-        </Route>
-      </Routes>
+          <Route
+            path="/bsnss"
+            element={
+              <ProtectedLoggedInRoute>
+                <BusinessLayout />
+              </ProtectedLoggedInRoute>
+            }
+          >
+            <Route index element={<BusinessListPage />} />
+            <Route path=":bsnssId" element={<BusinessListPage />}>
+              <Route index element={<BusinessDetailsPage />} />
+            </Route>
+          </Route>
+        </Routes>
+      </div>
     </>
   );
 }
