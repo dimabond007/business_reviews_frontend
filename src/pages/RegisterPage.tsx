@@ -61,7 +61,7 @@ function RegisterPage() {
                 placeholder="Enter password..."
               />
             </div>
-            <Button type="submit">Sign-in</Button>
+            <Button type="submit">Register</Button>
           </CardContent>
           <CardFooter>
             <p>
