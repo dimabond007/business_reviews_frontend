@@ -55,7 +55,9 @@ function LoginPage() {
           <CardFooter>
             <p>
               Don't have an account yet?{" "}
-              <Link to={"/auth/register"}>Register</Link>
+              <Link to={"/auth/register"} className="underline text-blue-600">
+                Register
+              </Link>
             </p>
           </CardFooter>
         </Card>

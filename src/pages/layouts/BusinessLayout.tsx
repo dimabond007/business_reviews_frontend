@@ -3,8 +3,9 @@ import { Outlet } from "react-router-dom";
 function BusinessLayout() {
   return (
     <>
-      <h1>BusinessLayout</h1>
-      <Outlet />
+      <div className="px-6">
+        <Outlet />
+      </div>
     </>
   );
 }

@@ -65,8 +65,10 @@ function RegisterPage() {
           </CardContent>
           <CardFooter>
             <p>
-              Don't have an account yet?{" "}
-              <Link to={"/auth/register"}>Register</Link>
+              Already have an account?{" "}
+              <Link to={"/auth/login"} className="underline text-blue-600">
+                Login
+              </Link>
             </p>
           </CardFooter>
         </Card>

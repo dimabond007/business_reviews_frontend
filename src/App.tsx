@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
@@ -9,12 +9,10 @@ import BusinessDetailsPage from "./pages/BusinessDetailsPage";
 import BusinessLayout from "./pages/layouts/BusinessLayout";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./pages/layouts/AuthLayout";
+import NavBar from "./components/NavBar";
 
 function App() {
   const { loggedInUser } = useAuth();
-  const location = useLocation();
-  const { pathname } = location;
-  console.log(pathname);
 
   function ProtectedLoggedInRoute({ children }: { children: React.ReactNode }) {
     if (loggedInUser === null) {
@@ -23,20 +21,22 @@ function App() {
 
     return children;
   }
+
   function ProtectedLoggedOutRoute({
     children,
   }: {
     children: React.ReactNode;
   }) {
-    // in real world, loggedInUser will consume from AuthContext
     if (loggedInUser) {
       return <Navigate to="/bsnss" />;
     }
 
     return children;
   }
+
   return (
     <>
+      <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
