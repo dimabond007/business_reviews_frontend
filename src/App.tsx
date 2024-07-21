@@ -57,15 +57,13 @@ function App() {
           <Route
             path="/bsnss"
             element={
-              <ProtectedLoggedInRoute>
-                <BusinessLayout />
-              </ProtectedLoggedInRoute>
+              // <ProtectedLoggedInRoute>
+              <BusinessLayout />
+              // </ProtectedLoggedInRoute>
             }
           >
             <Route index element={<BusinessListPage />} />
-            <Route path=":bsnssId" element={<BusinessListPage />}>
-              <Route index element={<BusinessDetailsPage />} />
-            </Route>
+            <Route path=":bsnssId" element={<BusinessDetailsPage />} />
           </Route>
         </Routes>
         <Footer />

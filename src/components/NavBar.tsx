@@ -1,6 +1,9 @@
 import { useAuth } from "@/context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
+import { Avatar } from "@radix-ui/react-avatar";
+import { AvatarFallback, AvatarImage } from "./ui/avatar";
+import { ModeToggle } from "./ui/mode-toggle";
 
 function NavBar() {
   const { loggedInUser, logout } = useAuth();
@@ -34,23 +37,20 @@ function NavBar() {
               About Us
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to={"/bsnss"}
+              style={({ isActive }) => {
+                return isActive
+                  ? { textDecoration: "underline", color: "#fff" }
+                  : {};
+              }}
+            >
+              Businesses
+            </NavLink>
+          </li>
           {loggedInUser ? (
-            <>
-              <li>
-                <NavLink
-                  to="/bsnss"
-                  className="hover:text-gray-300 transition-colors"
-                  style={({ isActive }) => isActive ? { textDecoration: "underline" } : {}}
-                >
-                  Businesses
-                </NavLink>
-              </li>
-              <li>
-                <Button onClick={() => logout()} variant="destructive">
-                  Logout
-                </Button>
-              </li>
-            </>
+            <></>
           ) : (
             <>
               <li>
@@ -74,6 +74,35 @@ function NavBar() {
             </>
           )}
         </ul>
+        {loggedInUser ? (
+          <ul className="flex gap-2 items-center">
+            <li>
+              <Button onClick={() => logout()} variant="destructive">
+                Logout
+              </Button>
+            </li>
+            <li>
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  className="size-8 rounded-full"
+                />
+                <AvatarFallback className="size-8 rounded-full flex items-center justify-center">
+                  {loggedInUser.username.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+            </li>
+            <li>
+              <ModeToggle />
+            </li>
+          </ul>
+        ) : (
+          <ul>
+            <li>
+              <ModeToggle />
+            </li>
+          </ul>
+        )}
       </div>
     </nav>
   );
