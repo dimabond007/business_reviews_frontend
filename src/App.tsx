@@ -62,9 +62,7 @@ function App() {
             }
           >
             <Route index element={<BusinessListPage />} />
-            <Route path=":bsnssId" element={<BusinessListPage />}>
-              <Route index element={<BusinessDetailsPage />} />
-            </Route>
+            <Route path=":bsnssId" element={<BusinessDetailsPage />} />
           </Route>
         </Routes>
       </div>
