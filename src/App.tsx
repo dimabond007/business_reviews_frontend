@@ -15,13 +15,13 @@ import Footer from "./components/Footer";
 function App() {
   const { loggedInUser } = useAuth();
 
-  function ProtectedLoggedInRoute({ children }: { children: React.ReactNode }) {
-    if (loggedInUser === null) {
-      return <Navigate to="/auth/login" />;
-    }
+  // function ProtectedLoggedInRoute({ children }: { children: React.ReactNode }) {
+  //   if (loggedInUser === null) {
+  //     return <Navigate to="/auth/login" />;
+  //   }
 
-    return children;
-  }
+  //   return children;
+  // }
 
   function ProtectedLoggedOutRoute({
     children,
@@ -38,7 +38,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className=" m-auto">
+      <div className="max-w-3xl m-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -66,8 +66,8 @@ function App() {
             <Route path=":bsnssId" element={<BusinessDetailsPage />} />
           </Route>
         </Routes>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }
