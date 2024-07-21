@@ -9,12 +9,14 @@ function NavBar() {
   const { loggedInUser, logout } = useAuth();
 
   return (
-    <nav className="sticky top-0 bg-blue-900 shadow-md flex items-center p-4">
+    <nav className="sticky top-0 bg-blue-900 shadow-md flex items-center p-4 z-10">
       <div className="container mx-auto flex justify-between items-center">
         <NavLink
           to="/"
           className="text-3xl font-bold text-white transition-colors hover:text-gray-300"
-          style={({ isActive }) => isActive ? { textDecoration: "underline" } : {}}
+          style={({ isActive }) =>
+            isActive ? { textDecoration: "underline" } : {}
+          }
         >
           RevieU
         </NavLink>
@@ -23,7 +25,9 @@ function NavBar() {
             <NavLink
               to="/contact"
               className="hover:text-gray-300 transition-colors"
-              style={({ isActive }) => isActive ? { textDecoration: "underline" } : {}}
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline" } : {}
+              }
             >
               Contact Us
             </NavLink>
@@ -32,7 +36,9 @@ function NavBar() {
             <NavLink
               to="/about"
               className="hover:text-gray-300 transition-colors"
-              style={({ isActive }) => isActive ? { textDecoration: "underline" } : {}}
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline" } : {}
+              }
             >
               About Us
             </NavLink>
@@ -57,7 +63,9 @@ function NavBar() {
                 <NavLink
                   to="/auth/register"
                   className="hover:text-gray-300 transition-colors"
-                  style={({ isActive }) => isActive ? { textDecoration: "underline" } : {}}
+                  style={({ isActive }) =>
+                    isActive ? { textDecoration: "underline" } : {}
+                  }
                 >
                   Register
                 </NavLink>
@@ -66,7 +74,9 @@ function NavBar() {
                 <NavLink
                   to="/auth/login"
                   className="hover:text-gray-300 transition-colors"
-                  style={({ isActive }) => isActive ? { textDecoration: "underline" } : {}}
+                  style={({ isActive }) =>
+                    isActive ? { textDecoration: "underline" } : {}
+                  }
                 >
                   Login
                 </NavLink>
