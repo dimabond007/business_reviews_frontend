@@ -17,3 +17,9 @@ interface userReview {
   _id: string;
   username: string;
 }
+
+export interface Like {
+  _id: string;
+  review: string;
+  user: string;
+}

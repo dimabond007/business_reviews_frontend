@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/services/api.service";
-import { Buisness, Review } from "@/types/types";
-import { Heart, Pencil, Minus, Plus } from "lucide-react";
+import { Buisness, Like, Review } from "@/types/types";
+import { Heart, Pencil, Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MyMapComponent from "@/components/MyMapComponent";
@@ -14,13 +14,14 @@ import { Input } from "@/components/ui/input";
 function BusinessDetailsPage() {
   const [business, setBuisness] = useState<Buisness | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [likes, setLikes] = useState<Like[]>([]);
   const { bsnssId } = useParams();
   const { loggedInUser } = useAuth();
   const [isAddingInput, setIsAddInput] = useState(false);
   const [newReviewContent, setNewReviewContent] = useState("");
-  const [isUpdateReviewInput, setIsUpdateReviewInput] = useState<
-    false | string
-  >(false);
+  const [isUpdateReviewInput, setIsUpdateReviewInput] = useState<null | string>(
+    null
+  );
 
   async function getBusiness() {
     try {
@@ -35,6 +36,15 @@ function BusinessDetailsPage() {
     try {
       const res = await api.get(`business/${bsnssId}/reviews`);
       setReviews(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getLikes() {
+    try {
+      const res = await api.get("/business/likes");
+      setLikes(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -63,6 +73,7 @@ function BusinessDetailsPage() {
   useEffect(() => {
     getBusiness();
     fetchReviews();
+    getLikes();
   }, []);
 
   if (!business) return <div>Loading...</div>;
@@ -78,7 +89,49 @@ function BusinessDetailsPage() {
       <Button onClick={() => setIsAddInput(false)}>Cancel</Button>
     </div>
   );
-  async function handleUpdateReview(reviewId: string) {}
+
+  async function handleUpdateReview(
+    ev: React.FormEvent<HTMLFormElement>,
+    reviewId: string
+  ) {
+    ev.preventDefault();
+    const formData = new FormData(ev.currentTarget);
+    const reviewContent = formData.get("reviewContent");
+    const data = { content: reviewContent };
+    try {
+      const res = await api.patch(`/business/review/${reviewId}`, data);
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review._id === reviewId ? res.data : review
+        )
+      );
+      setIsUpdateReviewInput(null);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDeleteReview(reviewId: string) {
+    try {
+      await api.delete(`/business/${bsnssId}/reviews/${reviewId}`);
+      setReviews((prevReviews) =>
+        prevReviews.filter((review) => review._id !== reviewId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleToggleLike(reviewId: string) {
+    try {
+      const res = await api.get(`/business/review/${reviewId}/like`);
+      setReviews((prev) =>
+        prev.map((review) => (review._id === reviewId ? res.data : review))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div>
@@ -109,11 +162,17 @@ function BusinessDetailsPage() {
           <ul className="flex  flex-col justify-between gap-5 p-4">
             <div className="flex justify-between items-center">
               <h1>Reviews</h1>
-              <Button onClick={() => setIsAddInput(!isAddingInput)}>
-                {isAddingInput ? <Minus /> : <Plus />}
-              </Button>
+              {loggedInUser && (
+                <Button onClick={() => setIsAddInput(!isAddingInput)}>
+                  {isAddingInput ? <Minus /> : <Plus />}
+                </Button>
+              )}
             </div>
             {reviews.map((review) => {
+              const like = likes.find(
+                (like) => like.user === loggedInUser?._id
+              );
+
               return (
                 <li key={review._id}>
                   <div className="flex justify-between items-center border-b-2 transition-all hover:bg-accent p-2 rounded-lg">
@@ -128,24 +187,51 @@ function BusinessDetailsPage() {
                         <p className="font-bold">{review.user.username}</p>
                         <div className="flex gap-2 items-center">
                           {isUpdateReviewInput === review._id ? (
-                            <Input />
-                          ) : (
-                            <p>{review.content}</p>
-                          )}
-                          {loggedInUser &&
-                            loggedInUser._id === review.user._id && (
-                              <Pencil
-                                className="cursor-pointer size-5"
-                                onClick={() =>
-                                  setIsUpdateReviewInput(review._id)
-                                }
+                            <form
+                              onSubmit={(ev) =>
+                                handleUpdateReview(ev, review._id)
+                              }
+                              className="flex gap-2"
+                            >
+                              <Input
+                                defaultValue={review.content}
+                                name="reviewContent"
                               />
-                            )}
+                              <Button type="submit">apply</Button>
+                            </form>
+                          ) : (
+                            <>
+                              <p>{review.content}</p>
+                              {loggedInUser &&
+                                loggedInUser._id === review.user._id && (
+                                  <>
+                                    <Pencil
+                                      className="cursor-pointer size-5"
+                                      onClick={() =>
+                                        setIsUpdateReviewInput(review._id)
+                                      }
+                                    />
+                                    <Trash2
+                                      onClick={() =>
+                                        handleDeleteReview(review._id)
+                                      }
+                                      className="text-red-600 cursor-pointer"
+                                    />
+                                  </>
+                                )}
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
-                    <p className="flex items-center gap-2">
-                      <Heart className="text-red-500" /> {review.likes}
+                    <p
+                      onClick={() =>
+                        loggedInUser && handleToggleLike(review._id)
+                      }
+                      className="flex items-center gap-2"
+                    >
+                      <Heart className="text-red-500" />
+                      {review.likes}
                     </p>
                   </div>
                 </li>
