@@ -1,20 +1,27 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/services/api.service";
-import { Buisness, Review } from "@/types/types";
-import { Heart } from "lucide-react";
+import { Buisness, Like, Review } from "@/types/types";
+import { Heart, Pencil, Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import MyMapComponent from "@/components/MyMapComponent";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 // const API_KEY = "AIzaSyAcnV2yGM1jOC2mn7g9cJ5nwS5fqwlFaZg";
 
 function BusinessDetailsPage() {
   const [business, setBuisness] = useState<Buisness | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [likes, setLikes] = useState<Like[]>([]);
   const { bsnssId } = useParams();
   const { loggedInUser } = useAuth();
+  const [isAddingInput, setIsAddInput] = useState(false);
+  const [newReviewContent, setNewReviewContent] = useState("");
+  const [isUpdateReviewInput, setIsUpdateReviewInput] = useState<null | string>(
+    null
+  );
 
   async function getBusiness() {
     try {
@@ -34,12 +41,97 @@ function BusinessDetailsPage() {
     }
   }
 
+  async function getLikes() {
+    try {
+      const res = await api.get("/business/likes");
+      setLikes(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleAdd() {
+    if (!loggedInUser) {
+      alert("You need to be logged in to add a review.");
+      return;
+    }
+    const review = {
+      content: newReviewContent,
+      user: loggedInUser._id,
+    };
+
+    try {
+      await api.post(`/business/${bsnssId}/reviews`, review);
+      fetchReviews();
+      setIsAddInput(false);
+      setNewReviewContent("");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getBusiness();
     fetchReviews();
+    getLikes();
   }, []);
 
   if (!business) return <div>Loading...</div>;
+  const isAddingContent = (
+    <div>
+      <div>Create Review</div>
+      <Input
+        placeholder="Enter review"
+        value={newReviewContent}
+        onChange={(e) => setNewReviewContent(e.target.value)}
+      />{" "}
+      <Button onClick={handleAdd}>Add Review</Button>
+      <Button onClick={() => setIsAddInput(false)}>Cancel</Button>
+    </div>
+  );
+
+  async function handleUpdateReview(
+    ev: React.FormEvent<HTMLFormElement>,
+    reviewId: string
+  ) {
+    ev.preventDefault();
+    const formData = new FormData(ev.currentTarget);
+    const reviewContent = formData.get("reviewContent");
+    const data = { content: reviewContent };
+    try {
+      const res = await api.patch(`/business/review/${reviewId}`, data);
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review._id === reviewId ? res.data : review
+        )
+      );
+      setIsUpdateReviewInput(null);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDeleteReview(reviewId: string) {
+    try {
+      await api.delete(`/business/${bsnssId}/reviews/${reviewId}`);
+      setReviews((prevReviews) =>
+        prevReviews.filter((review) => review._id !== reviewId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleToggleLike(reviewId: string) {
+    try {
+      const res = await api.get(`/business/review/${reviewId}/like`);
+      setReviews((prev) =>
+        prev.map((review) => (review._id === reviewId ? res.data : review))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div>
@@ -58,7 +150,7 @@ function BusinessDetailsPage() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="">
         {/* mapa */}
         <div>
           <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
@@ -66,9 +158,21 @@ function BusinessDetailsPage() {
         </div>
         {/* reviews */}
         <div>
-          <ul className="flex flex-col justify-between gap-5 p-4">
-            <h1>Reviews</h1>
+          {isAddingInput ? isAddingContent : ""}
+          <ul className="flex  flex-col justify-between gap-5 p-4">
+            <div className="flex justify-between items-center">
+              <h1>Reviews</h1>
+              {loggedInUser && (
+                <Button onClick={() => setIsAddInput(!isAddingInput)}>
+                  {isAddingInput ? <Minus /> : <Plus />}
+                </Button>
+              )}
+            </div>
             {reviews.map((review) => {
+              const like = likes.find(
+                (like) => like.user === loggedInUser?._id
+              );
+
               return (
                 <li key={review._id}>
                   <div className="flex justify-between items-center border-b-2 transition-all hover:bg-accent p-2 rounded-lg">
@@ -79,13 +183,55 @@ function BusinessDetailsPage() {
                           {review.user.username.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="flex flex-col justify-between">
+                      <div className="flex flex-col justify-between items">
                         <p className="font-bold">{review.user.username}</p>
-                        <p>{review.content}</p>
+                        <div className="flex gap-2 items-center">
+                          {isUpdateReviewInput === review._id ? (
+                            <form
+                              onSubmit={(ev) =>
+                                handleUpdateReview(ev, review._id)
+                              }
+                              className="flex gap-2"
+                            >
+                              <Input
+                                defaultValue={review.content}
+                                name="reviewContent"
+                              />
+                              <Button type="submit">apply</Button>
+                            </form>
+                          ) : (
+                            <>
+                              <p>{review.content}</p>
+                              {loggedInUser &&
+                                loggedInUser._id === review.user._id && (
+                                  <>
+                                    <Pencil
+                                      className="cursor-pointer size-5"
+                                      onClick={() =>
+                                        setIsUpdateReviewInput(review._id)
+                                      }
+                                    />
+                                    <Trash2
+                                      onClick={() =>
+                                        handleDeleteReview(review._id)
+                                      }
+                                      className="text-red-600 cursor-pointer"
+                                    />
+                                  </>
+                                )}
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <p className="flex items-center gap-2">
-                      <Heart className="text-red-500" /> {review.likes}
+                    <p
+                      onClick={() =>
+                        loggedInUser && handleToggleLike(review._id)
+                      }
+                      className="flex items-center gap-2"
+                    >
+                      <Heart className="text-red-500" />
+                      {review.likes}
                     </p>
                   </div>
                 </li>
