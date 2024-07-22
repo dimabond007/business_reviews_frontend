@@ -121,10 +121,10 @@ function BusinessDetailsPage() {
           <p className="mt-2 text-lg">{business.description}</p>
         </div>
       </div>
-      <div className="space-y-4">
-        {/* Map */}
-        <div className="h-96"> {/* Ensure the map has a fixed height */}
-          <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
+      <div className="">
+        {/* mapa */}
+        <div>
+          <MyMapComponent address={`${business.address},${business.city}`} />
         </div>
         {/* Reviews */}
         <div>
@@ -154,7 +154,18 @@ function BusinessDetailsPage() {
           </div>
           <ul className="space-y-4">
             {reviews.map((review) => {
-              const userLiked = likes.some(like => like.user === loggedInUser?._id);
+              const reviewLike = likes.find(
+                (like) =>
+                  review._id === like.review && like.user === loggedInUser?._id
+              );
+              // console.log(reviewLike);
+
+              let iconLike;
+              if (reviewLike) {
+                iconLike = <Heart fill="#000"></Heart>;
+              } else {
+                iconLike = <Heart></Heart>;
+              }
 
               return (
                 <li key={review._id} className="border rounded-lg shadow-sm p-4 bg-white">
@@ -203,6 +214,15 @@ function BusinessDetailsPage() {
                       <Heart className={`text-red-500 ${userLiked ? 'fill-red-500' : ''}`} />
                       <span>{review.likes}</span>
                     </div>
+                    <p
+                      onClick={() =>
+                        loggedInUser && handleToggleLike(review._id)
+                      }
+                      className="flex items-center gap-2"
+                    >
+                      {iconLike}
+                      {review.likes}
+                    </p>
                   </div>
                 </li>
               );

@@ -3,6 +3,8 @@ export interface Buisness {
   name: string;
   description: string;
   imageUrl: string;
+  address: string;
+  city: string;
 }
 
 export interface Review {
@@ -16,6 +18,7 @@ export interface Review {
 interface userReview {
   _id: string;
   username: string;
+  imgUrl: string;
 }
 
 export interface Like {
