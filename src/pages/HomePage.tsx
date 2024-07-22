@@ -11,7 +11,7 @@ function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // 5 seconds
+    }, 1000);
 
     // Clean up the timer if the component unmounts
     return () => clearTimeout(timer);

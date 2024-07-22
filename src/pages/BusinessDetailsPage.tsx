@@ -9,10 +9,8 @@ import MyMapComponent from "@/components/MyMapComponent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// const API_KEY = "AIzaSyAcnV2yGM1jOC2mn7g9cJ5nwS5fqwlFaZg";
-
 function BusinessDetailsPage() {
-  const [business, setBuisness] = useState<Buisness | null>(null);
+  const [business, setBusiness] = useState<Buisness | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [likes, setLikes] = useState<Like[]>([]);
   const { bsnssId } = useParams();
@@ -23,32 +21,26 @@ function BusinessDetailsPage() {
     null
   );
 
-  async function getBusiness() {
-    try {
-      const { data } = await api.get("/business/" + bsnssId);
-      setBuisness(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data: businessData } = await api.get(`/business/${bsnssId}`);
+        setBusiness(businessData);
 
-  async function fetchReviews() {
-    try {
-      const res = await api.get(`business/${bsnssId}/reviews`);
-      setReviews(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+        const { data: reviewsData } = await api.get(`/business/${bsnssId}/reviews`);
+        setReviews(reviewsData);
 
-  async function getLikes() {
-    try {
-      const res = await api.get("/business/likes");
-      setLikes(res.data);
-    } catch (error) {
-      console.log(error);
+        const { data: likesData } = await api.get(`/business/${bsnssId}/likes`);
+        setLikes(likesData);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+
+    fetchData();
+  }, [bsnssId]);
+
+  if (!business) return <div>Loading...</div>;
 
   async function handleAdd() {
     if (!loggedInUser) {
@@ -62,33 +54,13 @@ function BusinessDetailsPage() {
 
     try {
       await api.post(`/business/${bsnssId}/reviews`, review);
-      fetchReviews();
+      setReviews((prev) => [...prev, review]);
       setIsAddInput(false);
       setNewReviewContent("");
     } catch (error) {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    getBusiness();
-    fetchReviews();
-    getLikes();
-  }, []);
-
-  if (!business) return <div>Loading...</div>;
-  const isAddingContent = (
-    <div>
-      <div>Create Review</div>
-      <Input
-        placeholder="Enter review"
-        value={newReviewContent}
-        onChange={(e) => setNewReviewContent(e.target.value)}
-      />{" "}
-      <Button onClick={handleAdd}>Add Review</Button>
-      <Button onClick={() => setIsAddInput(false)}>Cancel</Button>
-    </div>
-  );
 
   async function handleUpdateReview(
     ev: React.FormEvent<HTMLFormElement>,
@@ -98,11 +70,12 @@ function BusinessDetailsPage() {
     const formData = new FormData(ev.currentTarget);
     const reviewContent = formData.get("reviewContent");
     const data = { content: reviewContent };
+
     try {
-      const res = await api.patch(`/business/review/${reviewId}`, data);
+      const { data: updatedReview } = await api.patch(`/business/review/${reviewId}`, data);
       setReviews((prevReviews) =>
         prevReviews.map((review) =>
-          review._id === reviewId ? res.data : review
+          review._id === reviewId ? updatedReview : review
         )
       );
       setIsUpdateReviewInput(null);
@@ -124,9 +97,11 @@ function BusinessDetailsPage() {
 
   async function handleToggleLike(reviewId: string) {
     try {
-      const res = await api.get(`/business/review/${reviewId}/like`);
-      setReviews((prev) =>
-        prev.map((review) => (review._id === reviewId ? res.data : review))
+      const { data: updatedReview } = await api.get(`/business/review/${reviewId}/like`);
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review._id === reviewId ? updatedReview : review
+        )
       );
     } catch (error) {
       console.log(error);
@@ -134,105 +109,100 @@ function BusinessDetailsPage() {
   }
 
   return (
-    <div>
+    <div className="p-4 space-y-4">
       <div className="relative">
-        <div>
-          <img
-            src={`/src/images/${business.imageUrl}`}
-            alt=""
-            className="w-full"
-          />
-        </div>
-        <div className="absolute top-0 left-0 content-center w-full h-full bg-black bg-opacity-50">
-          <div className="flex flex-col text-center justify-center  text-accent-foreground ">
-            <div className="text-5xl font-black">{business.name}</div>
-            <div>{business.description}</div>
-          </div>
+        <img
+          src={`/src/images/${business.imageUrl}`}
+          alt={business.name}
+          className="w-full h-64 object-cover rounded-lg"
+        />
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-4 rounded-lg">
+          <h1 className="text-4xl font-bold">{business.name}</h1>
+          <p className="mt-2 text-lg">{business.description}</p>
         </div>
       </div>
-      <div className="">
-        {/* mapa */}
-        <div>
+      <div className="space-y-4">
+        {/* Map */}
+        <div className="h-96"> {/* Ensure the map has a fixed height */}
           <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
-          {/* <MyMapComponent address="ha-atsmaut 80, kiryat ata" /> */}
         </div>
-        {/* reviews */}
+        {/* Reviews */}
         <div>
-          {isAddingInput ? isAddingContent : ""}
-          <ul className="flex  flex-col justify-between gap-5 p-4">
-            <div className="flex justify-between items-center">
-              <h1>Reviews</h1>
-              {loggedInUser && (
-                <Button onClick={() => setIsAddInput(!isAddingInput)}>
-                  {isAddingInput ? <Minus /> : <Plus />}
-                </Button>
-              )}
+          {isAddingInput && (
+            <div className="space-y-2 mb-4">
+              <h2 className="text-lg font-semibold">Create Review</h2>
+              <Input
+                placeholder="Enter review"
+                value={newReviewContent}
+                onChange={(e) => setNewReviewContent(e.target.value)}
+              />
+              <Button onClick={handleAdd} className="bg-blue-500 text-white">
+                Add Review
+              </Button>
+              <Button onClick={() => setIsAddInput(false)} className="bg-gray-500 text-white">
+                Cancel
+              </Button>
             </div>
+          )}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">Reviews</h2>
+            {loggedInUser && (
+              <Button onClick={() => setIsAddInput(!isAddingInput)} className="bg-green-500 text-white">
+                {isAddingInput ? <Minus /> : <Plus />}
+              </Button>
+            )}
+          </div>
+          <ul className="space-y-4">
             {reviews.map((review) => {
-              const like = likes.find(
-                (like) => like.user === loggedInUser?._id
-              );
+              const userLiked = likes.some(like => like.user === loggedInUser?._id);
 
               return (
-                <li key={review._id}>
-                  <div className="flex justify-between items-center border-b-2 transition-all hover:bg-accent p-2 rounded-lg">
-                    <div className="flex items-center">
-                      <Avatar className="">
-                        <AvatarImage src="" className="size-8 rounded-full" />
-                        <AvatarFallback className="size-8 rounded-full flex items-center justify-center bg-destructive">
-                          {review.user.username.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col justify-between items">
-                        <p className="font-bold">{review.user.username}</p>
-                        <div className="flex gap-2 items-center">
-                          {isUpdateReviewInput === review._id ? (
-                            <form
-                              onSubmit={(ev) =>
-                                handleUpdateReview(ev, review._id)
-                              }
-                              className="flex gap-2"
-                            >
-                              <Input
-                                defaultValue={review.content}
-                                name="reviewContent"
-                              />
-                              <Button type="submit">apply</Button>
-                            </form>
-                          ) : (
-                            <>
-                              <p>{review.content}</p>
-                              {loggedInUser &&
-                                loggedInUser._id === review.user._id && (
-                                  <>
-                                    <Pencil
-                                      className="cursor-pointer size-5"
-                                      onClick={() =>
-                                        setIsUpdateReviewInput(review._id)
-                                      }
-                                    />
-                                    <Trash2
-                                      onClick={() =>
-                                        handleDeleteReview(review._id)
-                                      }
-                                      className="text-red-600 cursor-pointer"
-                                    />
-                                  </>
-                                )}
-                            </>
-                          )}
-                        </div>
+                <li key={review._id} className="border rounded-lg shadow-sm p-4 bg-white">
+                  <div className="flex items-start gap-4">
+                    <Avatar>
+                      <AvatarImage src={review.user.avatarUrl} />
+                      <AvatarFallback>
+                        {review.user.username.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="font-semibold">{review.user.username}</p>
+                        {loggedInUser && loggedInUser._id === review.user._id && (
+                          <div className="flex gap-2">
+                            <Pencil
+                              className="cursor-pointer text-blue-500"
+                              onClick={() => setIsUpdateReviewInput(review._id)}
+                            />
+                            <Trash2
+                              className="cursor-pointer text-red-500"
+                              onClick={() => handleDeleteReview(review._id)}
+                            />
+                          </div>
+                        )}
                       </div>
+                      {isUpdateReviewInput === review._id ? (
+                        <form
+                          onSubmit={(ev) => handleUpdateReview(ev, review._id)}
+                          className="flex gap-2"
+                        >
+                          <Input
+                            defaultValue={review.content}
+                            name="reviewContent"
+                            className="flex-1"
+                          />
+                          <Button type="submit" className="bg-blue-500 text-white">
+                            Apply
+                          </Button>
+                        </form>
+                      ) : (
+                        <p>{review.content}</p>
+                      )}
                     </div>
-                    <p
-                      onClick={() =>
-                        loggedInUser && handleToggleLike(review._id)
-                      }
-                      className="flex items-center gap-2"
-                    >
-                      <Heart className="text-red-500" />
-                      {review.likes}
-                    </p>
+                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleToggleLike(review._id)}>
+                      <Heart className={`text-red-500 ${userLiked ? 'fill-red-500' : ''}`} />
+                      <span>{review.likes}</span>
+                    </div>
                   </div>
                 </li>
               );
