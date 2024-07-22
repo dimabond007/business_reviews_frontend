@@ -153,8 +153,7 @@ function BusinessDetailsPage() {
       <div className="">
         {/* mapa */}
         <div>
-          <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
-          {/* <MyMapComponent address="ha-atsmaut 80, kiryat ata" /> */}
+          <MyMapComponent address={`${business.address},${business.city}`} />
         </div>
         {/* reviews */}
         <div>
@@ -169,9 +168,9 @@ function BusinessDetailsPage() {
               )}
             </div>
             {reviews.map((review) => {
-              const like = likes.find(
-                (like) => like.user === loggedInUser?._id
-              );
+              // const like = likes.find(
+              //   (like) => like.user === loggedInUser?._id
+              // );
 
               return (
                 <li key={review._id}>
