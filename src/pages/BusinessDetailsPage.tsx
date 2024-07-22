@@ -151,7 +151,7 @@ function BusinessDetailsPage() {
         </div>
       </div>
       <div className="">
-        {/* mapa */}
+        {/* map */}
         <div>
           <MyMapComponent address={`${business.address},${business.city}`} />
         </div>
