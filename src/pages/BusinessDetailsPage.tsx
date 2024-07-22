@@ -1,13 +1,13 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/services/api.service";
 import { Buisness, Like, Review } from "@/types/types";
-import { Heart, Pencil, Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MyMapComponent from "@/components/MyMapComponent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import HeroSection from "@/components/HeroSection";
+import ReviewsList from "@/components/ReviewsList";
 import io from "socket.io-client";
 
 function BusinessDetailsPage() {
@@ -161,124 +161,27 @@ function BusinessDetailsPage() {
 
   return (
     <div>
-      <div className="relative">
-        <div>
-          <img
-            src={`/src/images/${business.imageUrl}`}
-            alt=""
-            className="w-full"
-          />
-        </div>
-        <div className="absolute top-0 left-0 content-center w-full h-full bg-black bg-opacity-50">
-          <div className="flex flex-col text-center justify-center  text-accent-foreground ">
-            <div className="text-5xl font-black">{business.name}</div>
-            <div>{business.description}</div>
-          </div>
-        </div>
-      </div>
-      <div className="">
+      <HeroSection business={business} />
+      <div>
         {/* mapa */}
         <div>
           <MyMapComponent address={`${business.address}, ${business.city}`} />
-          {/* <MyMapComponent address="ha-atsmaut 80, kiryat ata" /> */}
         </div>
         {/* reviews */}
         <div>
           {isAddingInput ? isAddingContent : ""}
-          <ul className="flex  flex-col justify-between gap-5 p-4">
-            <div className="flex justify-between items-center">
-              <h1>Reviews</h1>
-              {loggedInUser && (
-                <Button onClick={() => setIsAddInput(!isAddingInput)}>
-                  {isAddingInput ? <Minus /> : <Plus />}
-                </Button>
-              )}
-            </div>
-            {reviews.map((review) => {
-              const reviewLike = likes.find(
-                (like) =>
-                  review._id === like.review && like.user === loggedInUser?._id
-              );
-
-              let iconLike;
-              if (reviewLike) {
-                iconLike = <Heart fill="#FF0000" />;
-              } else {
-                iconLike = <Heart />;
-              }
-
-              console.log("review.user.imgUrl:", review.user.imgUrl);
-              return (
-                <li key={review._id}>
-                  <div className="flex justify-between items-center border-b-2 transition-all hover:bg-accent p-2 rounded-lg">
-                    <div className="flex items-center">
-                      <Avatar className="">
-                        {review.user && review.user.imgUrl ? (
-                          <AvatarImage
-                            src={`/src/images/${review.user.imgUrl}`}
-                            className="size-8 rounded-full"
-                          />
-                        ) : (
-                          <AvatarFallback className="size-8 rounded-full flex items-center justify-center bg-destructive">
-                            {review.user?.username?.charAt(0)}
-                          </AvatarFallback>
-                        )}
-                      </Avatar>
-                      <div className="flex flex-col justify-between items">
-                        <p className="font-bold">{review.user?.username}</p>
-                        <div className="flex gap-2 items-center">
-                          {isUpdateReviewInput === review._id ? (
-                            <form
-                              onSubmit={(ev) =>
-                                handleUpdateReview(ev, review._id)
-                              }
-                              className="flex gap-2"
-                            >
-                              <Input
-                                defaultValue={review.content}
-                                name="reviewContent"
-                              />
-                              <Button type="submit">apply</Button>
-                            </form>
-                          ) : (
-                            <>
-                              <p>{review.content}</p>
-                              {loggedInUser &&
-                                loggedInUser._id === review.user?._id && (
-                                  <>
-                                    <Pencil
-                                      className="cursor-pointer size-5"
-                                      onClick={() =>
-                                        setIsUpdateReviewInput(review._id)
-                                      }
-                                    />
-                                    <Trash2
-                                      onClick={() =>
-                                        handleDeleteReview(review._id)
-                                      }
-                                      className="text-red-600 cursor-pointer"
-                                    />
-                                  </>
-                                )}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <p
-                      onClick={() =>
-                        loggedInUser && handleToggleLike(review._id)
-                      }
-                      className="flex items-center gap-2"
-                    >
-                      {iconLike}
-                      {review.likes}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <ReviewsList
+            loggedInUser={loggedInUser}
+            isAddingInput={isAddingInput}
+            setIsAddInput={setIsAddInput}
+            reviews={reviews}
+            likes={likes}
+            isUpdateReviewInput={isUpdateReviewInput}
+            handleUpdateReview={handleUpdateReview}
+            setIsUpdateReviewInput={setIsUpdateReviewInput}
+            handleDeleteReview={handleDeleteReview}
+            handleToggleLike={handleToggleLike}
+          />
         </div>
       </div>
     </div>
