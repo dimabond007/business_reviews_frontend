@@ -153,7 +153,7 @@ function BusinessDetailsPage() {
       <div className="">
         {/* mapa */}
         <div>
-          <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
+          <MyMapComponent address={`${business.address}, ${business.city}`} />
           {/* <MyMapComponent address="ha-atsmaut 80, kiryat ata" /> */}
         </div>
         {/* reviews */}
@@ -173,7 +173,7 @@ function BusinessDetailsPage() {
                 (like) =>
                   review._id === like.review && like.user === loggedInUser?._id
               );
-              // console.log(reviewLike);
+              console.log(reviewLike);
 
               let iconLike;
               if (reviewLike) {
