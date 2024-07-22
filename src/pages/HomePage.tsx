@@ -1,9 +1,9 @@
 // src/pages/HomePage.tsx
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import BgImage from '../images/BackGroundImage.jpeg';
-import CallForActionImage from '../images/CallForActionImage.jpeg';
-import Loading from '../components/Loading';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import BgImage from "../images/BackGroundImage.jpeg";
+import CallForActionImage from "../images/CallForActionImage.jpeg";
+import Loading from "../components/Loading";
 
 function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,9 +64,10 @@ function HomePage() {
               transition={{ delay: 0.9, duration: 0.5 }}
               className="text-lg mb-8"
             >
-              Welcome to ReviewU, the ultimate platform for sharing and exploring business reviews. Whether you're
-              looking for the best local spots or want to share your own experiences, ReviewU connects you with a
-              vibrant community of reviewers and businesses.
+              Welcome to ReviewU, the ultimate platform for sharing and
+              exploring business reviews. Whether you're looking for the best
+              local spots or want to share your own experiences, ReviewU
+              connects you with a vibrant community of reviewers and businesses.
             </motion.p>
             <motion.div
               initial={{ y: 20, opacity: 0 }}
@@ -124,31 +125,67 @@ function HomePage() {
               {[
                 {
                   title: "Comprehensive Reviews",
-                  description: "Access detailed reviews from real users to make informed decisions about businesses you care about.",
+                  description:
+                    "Access detailed reviews from real users to make informed decisions about businesses you care about.",
                   icon: (
-                    <svg className="w-12 h-12 text-primary mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-12 h-12 text-primary mx-auto"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                  )
+                  ),
                 },
                 {
                   title: "Real-Time Updates",
-                  description: "Receive instant updates on new reviews, likes, and comments to stay up-to-date with the latest feedback.",
+                  description:
+                    "Receive instant updates on new reviews, likes, and comments to stay up-to-date with the latest feedback.",
                   icon: (
-                    <svg className="w-12 h-12 text-primary mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <svg
+                      className="w-12 h-12 text-primary mx-auto"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
                     </svg>
-                  )
+                  ),
                 },
                 {
                   title: "Verified Businesses",
-                  description: "Get accurate information from verified businesses, ensuring that you only read genuine reviews.",
+                  description:
+                    "Get accurate information from verified businesses, ensuring that you only read genuine reviews.",
                   icon: (
-                    <svg className="w-12 h-12 text-primary mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    <svg
+                      className="w-12 h-12 text-primary mx-auto"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      />
                     </svg>
-                  )
-                }
+                  ),
+                },
               ].map((feature, index) => (
                 <motion.div
                   key={index}
@@ -162,7 +199,12 @@ function HomePage() {
                   <motion.div
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
+                    transition={{
+                      delay: 0.2,
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                    }}
                     viewport={{ once: true }}
                     className="mb-4"
                   >
@@ -221,13 +263,14 @@ function HomePage() {
               viewport={{ once: true }}
               className="text-lg mb-8"
             >
-              Join ReviewU today and be part of our growing community. Discover great businesses, share your
-              experiences, and stay updated with real-time feedback.
+              Join ReviewU today and be part of our growing community. Discover
+              great businesses, share your experiences, and stay updated with
+              real-time feedback.
             </motion.p>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/register"
+              href="/auth/register"
               className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 rounded-lg transition duration-300 ease-in-out"
             >
               Get Started

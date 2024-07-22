@@ -169,16 +169,28 @@ function BusinessDetailsPage() {
               )}
             </div>
             {reviews.map((review) => {
-              const like = likes.find(
-                (like) => like.user === loggedInUser?._id
+              const reviewLike = likes.find(
+                (like) =>
+                  review._id === like.review && like.user === loggedInUser?._id
               );
+              // console.log(reviewLike);
+
+              let iconLike;
+              if (reviewLike) {
+                iconLike = <Heart fill="#000"></Heart>;
+              } else {
+                iconLike = <Heart></Heart>;
+              }
 
               return (
                 <li key={review._id}>
                   <div className="flex justify-between items-center border-b-2 transition-all hover:bg-accent p-2 rounded-lg">
                     <div className="flex items-center">
                       <Avatar className="">
-                        <AvatarImage src="" className="size-8 rounded-full" />
+                        <AvatarImage
+                          src={`/src/images/${review.user.imgUrl}`}
+                          className="size-8 rounded-full"
+                        />
                         <AvatarFallback className="size-8 rounded-full flex items-center justify-center bg-destructive">
                           {review.user.username.charAt(0)}
                         </AvatarFallback>
@@ -230,7 +242,7 @@ function BusinessDetailsPage() {
                       }
                       className="flex items-center gap-2"
                     >
-                      <Heart className="text-red-500" />
+                      {iconLike}
                       {review.likes}
                     </p>
                   </div>

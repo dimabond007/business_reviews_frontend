@@ -16,6 +16,7 @@ export interface Review {
 interface userReview {
   _id: string;
   username: string;
+  imgUrl: string;
 }
 
 export interface Like {
