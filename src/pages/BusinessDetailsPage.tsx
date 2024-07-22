@@ -153,8 +153,7 @@ function BusinessDetailsPage() {
       <div className="">
         {/* mapa */}
         <div>
-          <MyMapComponent address="keren kayemet le-Ysrael 12, holon" />
-          {/* <MyMapComponent address="ha-atsmaut 80, kiryat ata" /> */}
+          <MyMapComponent address={`${business.address},${business.city}`} />
         </div>
         {/* reviews */}
         <div>
