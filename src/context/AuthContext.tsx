@@ -8,6 +8,7 @@ export interface User {
   password: string;
   username: string;
   email: string;
+  imgUrl: string;
 }
 
 export interface UserToRegister {

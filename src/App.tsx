@@ -38,7 +38,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="max-w-3xl m-auto">
+      <div className="">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
