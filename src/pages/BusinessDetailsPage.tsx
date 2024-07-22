@@ -177,9 +177,9 @@ function BusinessDetailsPage() {
 
               let iconLike;
               if (reviewLike) {
-                iconLike = <Heart fill="#000"></Heart>;
+                iconLike = <Heart fill="#FF0000" />;
               } else {
-                iconLike = <Heart></Heart>;
+                iconLike = <Heart />;
               }
 
               return (
