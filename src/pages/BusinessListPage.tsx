@@ -1,19 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import api from "@/services/api.service";
-import { Buisness } from "@/types/types";
+import { Buisness } from "@/types/types"; // Fixed typo in the type definition
 import { useEffect, useState } from "react";
+import Loading from "../components/Loading"; // Import the Loading component
+import { Link, Outlet, useSearchParams } from "react-router-dom";
 
-import Loading from "../components/Loading";  // Import the Loading component
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-
-const BUISNESS_URL = "http://localhost:3000/api/business";
+const BUISNESS_URL = "http://localhost:3000/api/business"; // Fixed typo in the URL constant
 
 function BusinessListPage() {
   const [businesses, setBusinesses] = useState<Buisness[]>([]);
@@ -26,9 +19,10 @@ function BusinessListPage() {
       const options = {
         params: {
           name: searchParams.get("name"),
+          category: searchParams.get("category"),
+          district: searchParams.get("district"),
         },
       };
-
 
       try {
         const { data: fetchedBusinesses } = await api.get(
@@ -36,7 +30,6 @@ function BusinessListPage() {
           options
         );
         setBusinesses(fetchedBusinesses);
-
       } catch (error) {
         console.log(error);
       }
@@ -46,7 +39,11 @@ function BusinessListPage() {
     fetchAllBusinesses();
   }, [searchParams]);
 
-  function handleFilterChange(ev: React.ChangeEvent<HTMLInputElement>) {
+  function handleFilterChange(
+    ev:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement> // Explicitly typed the event
+  ) {
     const inputName = ev.target.name;
     const value = ev.target.value;
     searchParams.set(inputName, value);
@@ -81,11 +78,94 @@ function BusinessListPage() {
             className="p-2 rounded-lg w-full max-w-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-black"
           />
         </div>
+        <div className="flex justify-center gap-5 mt-8">
+          <div className="w-full max-w-xs">
+            <label
+              htmlFor="category"
+              className="block text-lg font-medium text-gray-700 mb-2"
+            >
+              Category:
+            </label>
+            <div className="relative">
+              <select
+                name="category"
+                id="category"
+                value={searchParams.get("category") || ""}
+                onChange={handleFilterChange}
+                className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-black"
+              >
+                <option value="">All</option>
+                <option value="Technology">Technology</option>
+                <option value="Food">Food</option>
+                <option value="Repair">Repair</option>
+                <option value="Gardening">Gardening</option>
+                <option value="Fitness">Fitness</option>
+                <option value="Cafe">Cafe</option>
+                <option value="Bookstore">Bookstore</option>
+                <option value="ArtGallery">Art Gallery</option>
+                <option value="Fashion">Fashion</option>
+                <option value="PetSupplies">Pet Supplies</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Jewelry">Jewelry</option>
+                <option value="Health">Health</option>
+                <option value="Florist">Florist</option>
+                <option value="HomeDecor">Home Decor</option>
+                <option value="Crafts">Crafts</option>
+                <option value="Grocery">Grocery</option>
+                <option value="Sports">Sports</option>
+                <option value="Beauty">Beauty</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 12l-4-4h8z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full max-w-xs">
+            <label
+              htmlFor="district"
+              className="block text-lg font-medium text-gray-700 mb-2"
+            >
+              District:
+            </label>
+            <div className="relative">
+              <select
+                name="district"
+                id="district"
+                value={searchParams.get("district") || ""}
+                onChange={handleFilterChange}
+                className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-black"
+              >
+                <option value="">All</option>
+                <option value="Center District">Center District</option>
+                <option value="Jerusalem District">Jerusalem District</option>
+                <option value="Haifa District">Haifa District</option>
+                <option value="Southern District">Southern District</option>
+                <option value="Tel Aviv District">Tel Aviv District</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 12l-4-4h8z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </motion.header>
 
       <main className="p-8 bg-background">
         {isLoading ? (
-          <Loading />  // Use the Loading component when isLoading is true
+          <Loading /> // Use the Loading component when isLoading is true
         ) : (
           <motion.ul
             initial={{ opacity: 0, y: 20 }}
@@ -106,7 +186,7 @@ function BusinessListPage() {
               >
                 <div className="relative h-64 overflow-hidden bg-black">
                   <img
-                    src={`src/images/${business.imageUrl}`}
+                    src={`/src/images/${business.imageUrl}`}
                     alt={business.name}
                     className="w-full h-full object-cover opacity-80 transition-opacity duration-300 hover:opacity-100"
                   />
