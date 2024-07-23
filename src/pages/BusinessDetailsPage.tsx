@@ -97,8 +97,16 @@ function BusinessDetailsPage() {
       setReviews(reviews.filter((review) => review._id !== reviewId));
     });
 
+    socket.on("updateLike", ({ reviewId, likes }) => {
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review._id === reviewId ? { ...review, likes } : review
+        )
+      );
+    });
+
     return () => {
-      socket.off("newReview");
+      socket.disconnect();
     };
   }, [reviews]);
 
@@ -148,17 +156,6 @@ function BusinessDetailsPage() {
     }
   }
 
-  async function handleToggleLike(reviewId: string) {
-    try {
-      const res = await api.get(`/business/review/${reviewId}/like`);
-      setReviews((prev) =>
-        prev.map((review) => (review._id === reviewId ? res.data : review))
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <div>
       <HeroSection business={business} />
@@ -180,7 +177,7 @@ function BusinessDetailsPage() {
             handleUpdateReview={handleUpdateReview}
             setIsUpdateReviewInput={setIsUpdateReviewInput}
             handleDeleteReview={handleDeleteReview}
-            handleToggleLike={handleToggleLike}
+            setReviews={setReviews}
           />
         </div>
       </div>

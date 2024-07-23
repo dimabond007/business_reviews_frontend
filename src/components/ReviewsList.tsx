@@ -17,7 +17,7 @@ interface PropsType {
   ) => Promise<void>;
   setIsUpdateReviewInput: React.Dispatch<React.SetStateAction<string | null>>;
   handleDeleteReview: (reviewId: string) => Promise<void>;
-  handleToggleLike: (reviewId: string) => Promise<void>;
+  setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
 }
 
 function ReviewsList({
@@ -30,7 +30,7 @@ function ReviewsList({
   handleUpdateReview,
   setIsUpdateReviewInput,
   handleDeleteReview,
-  handleToggleLike,
+  setReviews,
 }: PropsType) {
   return (
     <ul className="flex  flex-col justify-between gap-5 p-4">
@@ -43,18 +43,6 @@ function ReviewsList({
         )}
       </div>
       {reviews.map((review) => {
-        const reviewLike = likes.find(
-          (like) =>
-            review._id === like.review && like.user === loggedInUser?._id
-        );
-
-        let iconLike;
-        if (reviewLike) {
-          iconLike = <Heart fill="#FF0000" />;
-        } else {
-          iconLike = <Heart />;
-        }
-
         return (
           <ReviewItem
             key={review._id}
@@ -64,8 +52,8 @@ function ReviewsList({
             loggedInUser={loggedInUser}
             setIsUpdateReviewInput={setIsUpdateReviewInput}
             handleDeleteReview={handleDeleteReview}
-            handleToggleLike={handleToggleLike}
-            iconLike={iconLike}
+            setReviews={setReviews}
+            likes={likes}
           />
         );
       })}
