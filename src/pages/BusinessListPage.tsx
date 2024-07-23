@@ -3,46 +3,55 @@ import { Button } from "@/components/ui/button";
 import api from "@/services/api.service";
 import { Buisness } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+
+import Loading from "../components/Loading";  // Import the Loading component
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 const BUISNESS_URL = "http://localhost:3000/api/business";
 
 function BusinessListPage() {
   const [businesses, setBusinesses] = useState<Buisness[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  // Extract the search query from URL
-  const searchParams = new URLSearchParams(location.search);
-  const query = searchParams.get("query") || "";
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     async function fetchAllBusinesses() {
+      setIsLoading(true);
+      const options = {
+        params: {
+          name: searchParams.get("name"),
+        },
+      };
+
+
       try {
-        setIsLoading(true);
-        const { data: fetchedBusinesses } = await api.get(BUISNESS_URL);
+        const { data: fetchedBusinesses } = await api.get(
+          BUISNESS_URL,
+          options
+        );
         setBusinesses(fetchedBusinesses);
+
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
       }
+      setIsLoading(false);
     }
 
     fetchAllBusinesses();
-  }, []);
+  }, [searchParams]);
 
-  const filteredBusinesses = businesses.filter((business) =>
-    business.name.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = e.target.value;
-    const params = new URLSearchParams(location.search);
-    params.set("query", newQuery);
-    navigate(`${location.pathname}?${params.toString()}`);
-  };
+  function handleFilterChange(ev: React.ChangeEvent<HTMLInputElement>) {
+    const inputName = ev.target.name;
+    const value = ev.target.value;
+    searchParams.set(inputName, value);
+    setSearchParams(searchParams);
+  }
 
   return (
     <motion.div
@@ -66,8 +75,9 @@ function BusinessListPage() {
           <input
             type="text"
             placeholder="Search businesses..."
-            value={query}
-            onChange={handleSearch}
+            name="name"
+            value={searchParams.get("name") || ""}
+            onChange={handleFilterChange}
             className="p-2 rounded-lg w-full max-w-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-black"
           />
         </div>
@@ -75,9 +85,7 @@ function BusinessListPage() {
 
       <main className="p-8 bg-background">
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
-          </div>
+          <Loading />  // Use the Loading component when isLoading is true
         ) : (
           <motion.ul
             initial={{ opacity: 0, y: 20 }}
@@ -89,7 +97,7 @@ function BusinessListPage() {
             }}
             className="grid p-24 max-w-[1200px] m-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
           >
-            {filteredBusinesses.map((business) => (
+            {businesses.map((business) => (
               <motion.li
                 key={business._id}
                 whileHover={{ scale: 1.05 }}
