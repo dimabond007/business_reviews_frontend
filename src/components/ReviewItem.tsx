@@ -33,7 +33,7 @@ function ReviewItem({
   likes,
 }: PropsType) {
   const [isLiked, setIsLike] = useState(false);
-  let iconLike;
+  const [iconLike, setIconLike] = useState(false);
 
   async function handleToggleLike(reviewId: string) {
     try {
@@ -48,19 +48,26 @@ function ReviewItem({
   }
 
   useEffect(() => {
+    console.log("likes:", likes);
+
     const reviewLike = likes.find(
       (like) => review._id === like.review && like.user === loggedInUser?._id
     );
+    console.log("reviewLike:", reviewLike);
+
     if (reviewLike) {
       setIsLike(true);
-    } else setIsLike(!!reviewLike);
-  }, [review.likes]);
+    } else setIsLike(false);
+  }, [likes]);
 
-  if (isLiked) {
-    iconLike = <Heart fill="#FF0000" />;
-  } else {
-    iconLike = <Heart />;
-  }
+  useEffect(() => {
+    if (isLiked) {
+      setIconLike(true);
+    } else {
+      setIconLike(false);
+    }
+  }, [isLiked]);
+
   return (
     <motion.li
       key={review._id}
@@ -118,7 +125,7 @@ function ReviewItem({
           onClick={() => loggedInUser && handleToggleLike(review._id)}
           className="flex items-center gap-2 cursor-pointer text-gray-600 font-medium hover:text-red-600 transition-colors duration-200"
         >
-          {iconLike}
+          {iconLike ? <Heart fill="#FF0000" /> : <Heart />}
           <span>{review.likes}</span>
         </div>
       </div>

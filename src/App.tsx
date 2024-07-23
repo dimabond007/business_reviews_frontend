@@ -11,6 +11,7 @@ import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./pages/layouts/AuthLayout";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import { ModeToggle } from "./components/ui/mode-toggle";
 
 function App() {
   const { loggedInUser } = useAuth();
@@ -68,6 +69,9 @@ function App() {
         </Routes>
       </div>
       <Footer />
+      <div className="fixed top-1/3 right-0 p-3 px-6 bg-foreground rounded-tl-xl rounded-bl-xl shadow-2xl shadow-black">
+        <ModeToggle />
+      </div>
     </>
   );
 }

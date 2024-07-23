@@ -41,7 +41,7 @@ function BusinessDetailsPage() {
     }
 
     fetchData();
-  }, [bsnssId]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt-taskify");
@@ -96,18 +96,6 @@ function BusinessDetailsPage() {
   };
 
   if (!business) return <div>Loading...</div>;
-  const isAddingContent = (
-    <div>
-      <div>Create Review</div>
-      <Input
-        placeholder="Enter review"
-        value={newReviewContent}
-        onChange={(e) => setNewReviewContent(e.target.value)}
-      />{" "}
-      <Button onClick={handleAdd}>Add Review</Button>
-      <Button onClick={() => setIsAddInput(false)}>Cancel</Button>
-    </div>
-  );
 
   async function handleUpdateReview(
     ev: React.FormEvent<HTMLFormElement>,

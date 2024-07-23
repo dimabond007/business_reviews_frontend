@@ -24,7 +24,9 @@ function NavBar() {
         <NavLink
           to="/"
           className="text-3xl font-bold text-white transition-colors hover:text-gray-300"
-          style={({ isActive }) => (isActive ? { textDecoration: "underline" } : {})}
+          style={({ isActive }) =>
+            isActive ? { textDecoration: "underline" } : {}
+          }
         >
           RevieU
         </NavLink>
@@ -33,7 +35,9 @@ function NavBar() {
             <NavLink
               to="/contact"
               className="hover:text-gray-300 transition-colors"
-              style={({ isActive }) => (isActive ? { textDecoration: "underline" } : {})}
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline" } : {}
+              }
             >
               Contact Us
             </NavLink>
@@ -42,7 +46,9 @@ function NavBar() {
             <NavLink
               to="/about"
               className="hover:text-gray-300 transition-colors"
-              style={({ isActive }) => (isActive ? { textDecoration: "underline" } : {})}
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline" } : {}
+              }
             >
               About Us
             </NavLink>
@@ -50,7 +56,9 @@ function NavBar() {
           <li>
             <NavLink
               to="/bsnss"
-              style={({ isActive }) => (isActive ? { textDecoration: "underline", color: "#fff" } : {})}
+              style={({ isActive }) =>
+                isActive ? { textDecoration: "underline", color: "#fff" } : {}
+              }
             >
               Businesses
             </NavLink>
@@ -61,7 +69,9 @@ function NavBar() {
                 <NavLink
                   to="/auth/register"
                   className="hover:text-gray-300 transition-colors"
-                  style={({ isActive }) => (isActive ? { textDecoration: "underline" } : {})}
+                  style={({ isActive }) =>
+                    isActive ? { textDecoration: "underline" } : {}
+                  }
                 >
                   Register
                 </NavLink>
@@ -70,7 +80,9 @@ function NavBar() {
                 <NavLink
                   to="/auth/login"
                   className="hover:text-gray-300 transition-colors"
-                  style={({ isActive }) => (isActive ? { textDecoration: "underline" } : {})}
+                  style={({ isActive }) =>
+                    isActive ? { textDecoration: "underline" } : {}
+                  }
                 >
                   Login
                 </NavLink>
@@ -80,7 +92,10 @@ function NavBar() {
         </ul>
         {loggedInUser ? (
           <div className="relative">
-            <Button onClick={toggleDropdown} className="bg-inherit hover:bg-inherit mt-2">
+            <Button
+              onClick={toggleDropdown}
+              className="bg-inherit hover:bg-inherit mt-2"
+            >
               <Avatar className="mr-2">
                 <AvatarImage
                   src={`/src/images/${loggedInUser.imgUrl}`}
@@ -91,7 +106,8 @@ function NavBar() {
                 </AvatarFallback>
               </Avatar>
               {/* <span>{loggedInUser.username}</span> */}
-              <ChevronDown className="ml-2" /> {/* Use ChevronDown from Lucid React */}
+              <ChevronDown className="ml-2" />{" "}
+              {/* Use ChevronDown from Lucid React */}
             </Button>
             {isDropdownOpen && (
               <div className="absolute top-full right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-md">
@@ -109,12 +125,13 @@ function NavBar() {
                     <span>{loggedInUser.username}</span>
                   </li>
                   <li className="flex items-center p-2 hover:bg-gray-200">
-                    <Button onClick={() => logout()} variant="destructive" className="w-full">
+                    <Button
+                      onClick={() => logout()}
+                      variant="destructive"
+                      className="w-full"
+                    >
                       Logout
                     </Button>
-                  </li>
-                  <li className="flex p-2 justify-center hover:bg-gray-200 ">
-                    <ModeToggle />
                   </li>
                 </ul>
               </div>
