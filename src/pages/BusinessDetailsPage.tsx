@@ -95,7 +95,7 @@ function BusinessDetailsPage() {
     }
   };
 
-  if (!business) return <div>Loading...</div>;
+  if (!business) return <div></div>;
   const isAddingContent = (
     <div>
       <div>Create Review</div>
@@ -146,7 +146,7 @@ function BusinessDetailsPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="font-sans  bg-gray-100 min-h-screen"
+      className="font-sans bg-background min-h-screen"
     >
       <motion.div
         initial={{ y: -50, opacity: 0 }}
@@ -161,7 +161,7 @@ function BusinessDetailsPage() {
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="bg-white p-8  rounded-lg shadow-lg mb-8"
+          className="bg-secondary p-8  dark:text-white rounded-lg shadow-lg mb-8"
         >
           <div className="flex flex-col md:flex-row">
             <motion.div
@@ -174,7 +174,7 @@ function BusinessDetailsPage() {
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.7, delay: 1 }}
-                className="text-3xl text-primary font-bold mb-4"
+                className="text-3xl text-primary dark:text-white font-bold mb-4"
               >
                 {business.name}
               </motion.h2>
@@ -182,7 +182,7 @@ function BusinessDetailsPage() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.7, delay: 1.2 }}
-                className="text-gray-600 mb-4"
+                className="text-gray-600 dark:text-white mb-4 "
               >
                 {business.description}
               </motion.p>
@@ -190,7 +190,7 @@ function BusinessDetailsPage() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.7, delay: 1.4 }}
-                className="text-gray-800 mb-4"
+                className="text-gray-800 mb-4 dark:text-white"
               >
                 {business.address}, {business.city}
               </motion.p>
@@ -211,20 +211,20 @@ function BusinessDetailsPage() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.7, delay: 2 }}
-                  className="bg-white p-6 rounded-lg shadow-lg "
+                  className="bg-ring p-6 rounded-lg shadow-lg "
                 >
-                  <div className="flex justify-between items-center mb-6">
+                  <div className="flex justify-between items-center mb-6 ">
                     <motion.h2
                       initial={{ y: -20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 0.2 }}
-                      className="text-2xl font-bold"
+                      className="text-2xl font-bold text-secondary dark:text-white "
                     >
                       Reviews
                     </motion.h2>
                     <Button
                       onClick={() => setIsAddInput(!isAddingInput)}
-                      className="bg-primary text-white hover:bg-primary-dark"
+                      className="dark:bg-gray-800 bg-blue-800 text-white hover:bg-primary-dark"
                     >
                       {isAddingInput ? "Cancel" : "Add Review"}
                     </Button>
@@ -234,30 +234,25 @@ function BusinessDetailsPage() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 1.5 }}
-                      className="bg-white p-6 rounded-lg shadow-lg mb-6"
+                      className="bg-white p-6 rounded-lg shadow-lg mb-6 dark:bg-gray-400"
                     >
-                      <h3 className="text-lg font-semibold mb-2">
+                      <h3 className="text-lg font-semibold mb-2 dark:text-black">
                         Create Review
                       </h3>
                       <Input
                         placeholder="Enter your review"
                         value={newReviewContent}
                         onChange={(e) => setNewReviewContent(e.target.value)}
-                        className="mb-4"
+                        className="mb-4 "
                       />
-                      <div className="flex  space-x-3">
+                      <div className="flex  space-x-3 ">
                         <Button
                           onClick={handleAdd}
-                          className="bg-primary text-white hover:bg-primary-dark"
+                          className="bg-primary text-white  hover:bg-primary-dark"
                         >
                           Add Review
                         </Button>
-                        <Button
-                          onClick={() => setIsAddInput(false)}
-                          className="bg-gray-300 hover:bg-gray-400"
-                        >
-                          Cancel
-                        </Button>
+
                       </div>
                     </motion.div>
                   )}
@@ -281,7 +276,7 @@ function BusinessDetailsPage() {
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 2.6 }}
-              className="md:w-1/3"
+              className="md:w-1/3 "
             >
               <MyMapComponent
                 address={`${business.address}, ${business.city}`}

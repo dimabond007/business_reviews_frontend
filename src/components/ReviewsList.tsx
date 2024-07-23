@@ -33,11 +33,8 @@ function ReviewsList({
   setReviews,
 }: PropsType) {
   return (
-    <ul className="flex  flex-col justify-between gap-5 p-2 overflow-y-scroll max-h-[200px]  ">
-      <div className="flex justify-between items-center ">
-        {/* <h1>Reviews</h1> */}
+    <ul className="flex  flex-col justify-between gap-5 p-2 overflow-y-scroll max-h-[200px]   ">
 
-      </div>
       {reviews.map((review) => {
         return (
           <ReviewItem
