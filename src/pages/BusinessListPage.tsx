@@ -4,6 +4,7 @@ import api from "@/services/api.service";
 import { Buisness } from "@/types/types";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";  // Import the Loading component
 
 const BUISNESS_URL = "http://localhost:3000/api/business";
 
@@ -20,17 +21,20 @@ function BusinessListPage() {
   useEffect(() => {
     async function fetchAllBusinesses() {
       try {
-        setIsLoading(true);
         const { data: fetchedBusinesses } = await api.get(BUISNESS_URL);
         setBusinesses(fetchedBusinesses);
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
       }
     }
 
     fetchAllBusinesses();
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
   }, []);
 
   const filteredBusinesses = businesses.filter((business) =>
@@ -75,9 +79,7 @@ function BusinessListPage() {
 
       <main className="p-8 bg-background">
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
-          </div>
+          <Loading />  // Use the Loading component when isLoading is true
         ) : (
           <motion.ul
             initial={{ opacity: 0, y: 20 }}

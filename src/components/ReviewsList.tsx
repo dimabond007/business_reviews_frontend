@@ -33,14 +33,10 @@ function ReviewsList({
   handleToggleLike,
 }: PropsType) {
   return (
-    <ul className="flex  flex-col justify-between gap-5 p-4">
-      <div className="flex justify-between items-center">
-        <h1>Reviews</h1>
-        {loggedInUser && (
-          <Button onClick={() => setIsAddInput(!isAddingInput)}>
-            {isAddingInput ? <Minus /> : <Plus />}
-          </Button>
-        )}
+    <ul className="flex  flex-col justify-between gap-5 p-2 overflow-y-scroll max-h-[200px]  ">
+      <div className="flex justify-between items-center ">
+        {/* <h1>Reviews</h1> */}
+
       </div>
       {reviews.map((review) => {
         const reviewLike = likes.find(

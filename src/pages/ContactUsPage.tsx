@@ -8,7 +8,7 @@ function ContactUsPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // 2 seconds delay
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);

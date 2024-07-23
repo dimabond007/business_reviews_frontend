@@ -11,7 +11,7 @@ function AboutPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // 2 seconds delay
+    }, 1000); // 2 seconds delay
 
     return () => clearTimeout(timer);
   }, []);
@@ -23,19 +23,19 @@ function AboutPage() {
   const teamMembers = [
     {
       name: 'Dima',
-      role: 'Full Stack Developer | Creator',
+      role: 'BackMaster',
       bio: 'Dima is a seasoned entrepreneur with a passion for innovation and technology. With years of experience in the tech industry, he brings invaluable insights and leadership to our team.',
       imageUrl: Dima,
     },
     {
       name: 'Omer',
-      role: 'Full Stack Developer',
+      role: 'FrontMaster',
       bio: 'Omer is a full-stack developer with a knack for solving complex problems. His expertise in both frontend and backend development helps drive our projects forward with efficiency and precision.',
       imageUrl: Omer,
     },
     {
       name: 'Daniel',
-      role: 'Full Stack Designer',
+      role: 'Full Stack | UX/UI ',
       bio: 'Daniel is a creative designer specializing in user experience and interface design. His eye for detail and dedication to creating intuitive, engaging interfaces ensure that our users have a seamless experience.',
       imageUrl: Daniel,
     },
