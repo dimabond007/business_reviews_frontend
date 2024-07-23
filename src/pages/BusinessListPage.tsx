@@ -3,15 +3,8 @@ import { Button } from "@/components/ui/button";
 import api from "@/services/api.service";
 import { Buisness } from "@/types/types";
 import { useEffect, useState } from "react";
-
 import Loading from "../components/Loading";  // Import the Loading component
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, Outlet, useSearchParams } from "react-router-dom";
 
 const BUISNESS_URL = "http://localhost:3000/api/business";
 
@@ -29,14 +22,9 @@ function BusinessListPage() {
         },
       };
 
-
       try {
-        const { data: fetchedBusinesses } = await api.get(
-          BUISNESS_URL,
-          options
-        );
+        const { data: fetchedBusinesses } = await api.get(BUISNESS_URL, options);
         setBusinesses(fetchedBusinesses);
-
       } catch (error) {
         console.log(error);
       }
@@ -63,12 +51,12 @@ function BusinessListPage() {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="bg-gradient-to-r from-primary to-primary-foreground text-primary-foreground py-12 px-8 shadow-md"
+        className="bg-gradient-to-r from-primary to-primary-foreground text-primary-foreground py-12 px-4 sm:px-8 shadow-md"
       >
-        <h1 className="text-5xl text-center font-extrabold">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl text-center font-extrabold">
           Discover Top Businesses
         </h1>
-        <p className="text-xl mt-4 text-center max-w-2xl mx-auto">
+        <p className="text-lg sm:text-xl mt-4 text-center max-w-2xl mx-auto">
           Explore and review the best local businesses in your area.
         </p>
         <div className="mt-8 flex justify-center">
@@ -83,7 +71,7 @@ function BusinessListPage() {
         </div>
       </motion.header>
 
-      <main className="p-8 bg-background">
+      <main className="p-4 sm:p-8 bg-background">
         {isLoading ? (
           <Loading />  // Use the Loading component when isLoading is true
         ) : (
@@ -95,7 +83,7 @@ function BusinessListPage() {
               staggerChildren: 0.1,
               delayChildren: 0.5,
             }}
-            className="grid p-24 max-w-[1200px] m-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 max-w-full mx-auto"
           >
             {businesses.map((business) => (
               <motion.li
@@ -104,15 +92,15 @@ function BusinessListPage() {
                 whileTap={{ scale: 0.95 }}
                 className="relative bg-card text-card-foreground shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl"
               >
-                <div className="relative h-64 overflow-hidden bg-black">
+                <div className="relative h-40 sm:h-56 lg:h-64 overflow-hidden bg-black">
                   <img
                     src={`src/images/${business.imageUrl}`}
                     alt={business.name}
                     className="w-full h-full object-cover opacity-80 transition-opacity duration-300 hover:opacity-100"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
-                  <div className="absolute bottom-0 left-0 p-6 w-full">
-                    <h2 className="text-2xl font-bold mb-2 text-white">
+                  <div className="absolute bottom-0 left-0 p-4 sm:p-6 w-full">
+                    <h2 className="text-lg sm:text-xl font-bold mb-2 text-white">
                       {business.name}
                     </h2>
                     <p className="text-sm mb-4 text-gray-200 line-clamp-2">

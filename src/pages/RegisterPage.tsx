@@ -29,51 +29,51 @@ function RegisterPage() {
 
   return (
     <div className="relative flex justify-center items-center h-screen bg-cover bg-center" style={{ backgroundImage: `url(${BgImage})` }}>
-      <div className="absolute inset-0 bg-black  opacity-50"></div>
-      <form onSubmit={handleRegister} className="relative left-[520px]  mb-9 w-[1500px] ">
-        <Card className=" w-full max-w-md bg-white bg-opacity-30 shadow-2xl rounded-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold ">Register</CardTitle>
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <form onSubmit={handleRegister} className="relative z-10 w-full max-w-lg p-4">
+        <Card className="bg-white dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80 shadow-2xl rounded-xl border border-gray-300 dark:border-gray-600">
+          <CardHeader className="text-center p-6">
+            <CardTitle className="text-4xl font-extrabold text-gray-900 dark:text-white">Register</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-5 p-6">
+          <CardContent className="flex flex-col gap-6 p-6">
             <div>
-              <Label htmlFor="email" className="block mb-1  font-semibold">Email:</Label>
+              <Label htmlFor="email" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Email:</Label>
               <Input
                 id="email"
                 type="email"
                 name="email"
                 placeholder="Enter email..."
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500 bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition-all duration-300 ease-in-out"
               />
             </div>
             <div>
-              <Label htmlFor="username" className="block mb-1 font-semibold ">Username:</Label>
+              <Label htmlFor="username" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Username:</Label>
               <Input
                 id="username"
                 type="text"
                 name="username"
                 placeholder="Enter username..."
-                className="w-full  px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition-all duration-300 ease-in-out"
               />
             </div>
             <div>
-              <Label htmlFor="password" className="block mb-1 font-semibold">Password:</Label>
+              <Label htmlFor="password" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Password:</Label>
               <Input
                 id="password"
                 type="password"
                 name="password"
                 placeholder="Enter password..."
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition-all duration-300 ease-in-out"
               />
             </div>
-            <Button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out dark:bg-gray-900">
+            <Button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg hover:bg-gradient-to-l hover:from-blue-600 hover:to-blue-700 transition duration-300 ease-in-out">
               Register
             </Button>
           </CardContent>
           <CardFooter className="text-center p-4">
-            <p className="text-md m-auto font-bold rounded-md p-1 bg-white dark:bg-gray-900">
+            <p className="text-md font-semibold text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
-              <Link to={"/auth/login"} className="underline text-blue-600">
+              <Link to="/auth/login" className="underline text-blue-600 dark:text-blue-400">
                 Login
               </Link>
             </p>
