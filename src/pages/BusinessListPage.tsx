@@ -22,22 +22,25 @@ function BusinessListPage() {
 
   useEffect(() => {
     async function fetchAllBusinesses() {
+      setIsLoading(true);
       const options = {
         params: {
           name: searchParams.get("name"),
         },
       };
 
+
       try {
-        setIsLoading(true);
         const { data: fetchedBusinesses } = await api.get(
           BUISNESS_URL,
           options
         );
         setBusinesses(fetchedBusinesses);
+
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     }
 
     fetchAllBusinesses();
