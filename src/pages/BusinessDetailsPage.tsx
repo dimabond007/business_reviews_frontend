@@ -170,16 +170,6 @@ function BusinessDetailsPage() {
               transition={{ duration: 0.7, delay: 0.6 }}
               className="md:w-2/3 md:pr-8 "
             >
-              {business.imageUrl && (
-                <motion.img
-                  src={`src/images/${business.imageUrl}`}
-                  alt={business.name}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7, delay: 0.8 }}
-                  className="w-full  h-60 object-cover rounded-lg shadow-lg mb-4"
-                />
-              )}
               <motion.h2
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
