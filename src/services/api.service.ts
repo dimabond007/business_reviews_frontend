@@ -1,8 +1,13 @@
 import axios from "axios";
 
+const apiUrl = process.env.NODE_ENV === "production" ? "/api" : "//localhost:3000/api";
+
+if (!apiUrl) {
+  throw new Error("API_URL is not defined");
+}
+
 const api = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "production" ? process.env.API_URL : "//localhost:3000/api",
+  baseURL: apiUrl,
 });
 
 api.interceptors.request.use(
