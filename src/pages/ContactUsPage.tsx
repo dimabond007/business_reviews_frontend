@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Loading from '../components/Loading'; // Adjust the import path as needed
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Loading from "../components/Loading"; // Adjust the import path as needed
 
 function ContactUsPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,9 @@ function ContactUsPage() {
         transition={{ delay: 0.2, duration: 0.5 }}
         className="bg-gradient-to-r from-primary to-primary-foreground py-6 px-8 shadow-md"
       >
-        <h1 className="text-4xl text-white font-extrabold text-center">Contact Us</h1>
+        <h1 className="text-4xl text-white font-extrabold text-center">
+          Contact Us
+        </h1>
       </motion.header>
 
       {/* Contact Form Section */}
@@ -42,7 +44,10 @@ function ContactUsPage() {
         className="py-16 dark:bg-gray-900 text-card-foreground"
       >
         <div className="container mx-auto px-4">
-          <img src="src/images/favicon-32x32.png" className="m-auto max-w-[250px]" />
+          <img
+            src="src/images/favicon-32x32.png"
+            className="m-auto max-w-[250px]"
+          />
 
           <motion.div
             initial={{ y: 50, opacity: 0 }}
@@ -50,10 +55,20 @@ function ContactUsPage() {
             transition={{ delay: 0.6, duration: 0.5 }}
             className="bg-card dark:bg-primary p-8 rounded-lg shadow-lg max-w-5xl mx-auto"
           >
-            <h2 className="text-3xl font-semibold mb-8 text-center">Send Us a Message</h2>
+            <h2 className="text-3xl font-semibold mb-8 text-center">
+              Send Us a Message
+            </h2>
             <form className="space-y-6">
-              <motion.div whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
-                <label htmlFor="name" className="block text-muted-foreground text-lg font-medium mb-2">Name</label>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <label
+                  htmlFor="name"
+                  className="block text-muted-foreground text-lg font-medium mb-2"
+                >
+                  Name
+                </label>
                 <input
                   type="text"
                   id="name"
@@ -63,8 +78,16 @@ function ContactUsPage() {
                   placeholder="Your Name"
                 />
               </motion.div>
-              <motion.div whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
-                <label htmlFor="email" className="block text-muted-foreground text-lg font-medium mb-2">Email</label>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <label
+                  htmlFor="email"
+                  className="block text-muted-foreground text-lg font-medium mb-2"
+                >
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -74,8 +97,16 @@ function ContactUsPage() {
                   placeholder="Your Email"
                 />
               </motion.div>
-              <motion.div whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
-                <label htmlFor="message" className="block text-muted-foreground text-lg font-medium mb-2">Message</label>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <label
+                  htmlFor="message"
+                  className="block text-muted-foreground text-lg font-medium mb-2"
+                >
+                  Message
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -109,20 +140,30 @@ function ContactUsPage() {
       >
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl font-semibold mb-6">Our Contact Information</h2>
+            <h2 className="text-3xl font-semibold mb-6">
+              Our Contact Information
+            </h2>
             <p className="text-lg mb-6">
               You can also reach us through the following channels:
             </p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, staggerChildren: 0.2, delayChildren: 1.2 }}
+              transition={{
+                delay: 1,
+                staggerChildren: 0.2,
+                delayChildren: 1.2,
+              }}
               className="grid grid-cols-1 md:grid-cols-3 gap-8"
             >
               {[
                 { title: "Email", content: "support@reviewu.com", icon: "📧" },
                 { title: "Phone", content: "(123) 456-7890", icon: "📞" },
-                { title: "Address", content: "123 Business Rd, City, State, ZIP", icon: "🏢" }
+                {
+                  title: "Address",
+                  content: "123 Business Rd, City, State, ZIP",
+                  icon: "🏢",
+                },
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -155,7 +196,6 @@ function ContactUsPage() {
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowFullScreen=""
                 loading="lazy"
               ></iframe>
             </div>

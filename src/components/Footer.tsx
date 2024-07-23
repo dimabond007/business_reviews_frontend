@@ -3,21 +3,14 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 py-8  text-white">
-      <div className="max-w-5xl w-full mx-auto ">
-        <div className="flex justify-between items-center">
-          <div >
+    <footer className="bg-gray-900 py-8 text-white">
+      <div className="max-w-5xl w-full mx-auto px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="text-center md:text-left mb-4 md:mb-0">
             <h3 className="text-xl font-bold">ReviewU</h3>
-            <p className="text-gray-400">
-              © 2024 ReviewU. All rights reserved.
-            </p>
+            <p className="text-gray-400">© 2024 ReviewU. All rights reserved.</p>
           </div>
-          <div className="space-x-4">
-
-
-
-          </div>
-          <div className="flex space-x-28">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16">
             <div className="text-center">
               <a
                 href="https://github.com/Damashdam"
