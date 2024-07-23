@@ -3,13 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "./ui/avatar";
-import { ModeToggle } from "./ui/mode-toggle";
 import { useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
-
-interface User {
-  username: string;
-}
 
 function NavBar() {
   const { loggedInUser, logout } = useAuth();

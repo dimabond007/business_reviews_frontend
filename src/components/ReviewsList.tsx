@@ -1,5 +1,3 @@
-import { Heart, Minus, Plus } from "lucide-react";
-import { Button } from "./ui/button";
 import { User } from "@/context/AuthContext";
 import { Like, Review } from "@/types/types";
 import ReviewItem from "./ReviewItem";
@@ -22,8 +20,6 @@ interface PropsType {
 
 function ReviewsList({
   loggedInUser,
-  isAddingInput,
-  setIsAddInput,
   reviews,
   likes,
   isUpdateReviewInput,
@@ -34,7 +30,6 @@ function ReviewsList({
 }: PropsType) {
   return (
     <ul className="flex  flex-col justify-between gap-5 p-2 overflow-y-scroll max-h-[200px]   ">
-
       {reviews.map((review) => {
         return (
           <ReviewItem
