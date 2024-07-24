@@ -186,7 +186,11 @@ function BusinessListPage() {
               >
                 <div className="relative h-40 sm:h-56 lg:h-64 overflow-hidden bg-black">
                   <img
-                    src={`/src/images/${business.imageUrl}`}
+                    src={
+                      business.imageUrl
+                        ? `/src/images/${business.imageUrl}`
+                        : "https://placehold.co/600x400"
+                    }
                     alt={business.name}
                     className="w-full h-full object-cover opacity-80 transition-opacity duration-300 hover:opacity-100"
                   />

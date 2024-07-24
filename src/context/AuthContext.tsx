@@ -1,3 +1,4 @@
+import { useToast } from "@/components/ui/use-toast";
 import api from "../services/api.service";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { createContext, useState, useEffect, useContext } from "react";
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }: childrenPropsType) => {
     undefined
   );
   const [token, setToken] = useLocalStorage<string | null>("jwt-taskify", null);
+  const { toast } = useToast();
 
   const navigate = useNavigate();
 
@@ -77,14 +79,15 @@ export const AuthProvider = ({ children }: childrenPropsType) => {
     setToken(null);
     setLoggedInUser(null);
     navigate("/auth/login");
+    toast({ title: `Goodbye!` });
   }
 
   async function login(userData: UserCradantial) {
     try {
       const response = await api.post("/user/login", userData);
-
       setToken(response.data.token);
       navigate("/bsnss");
+      toast({ title: `Successfull login` });
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -93,6 +96,7 @@ export const AuthProvider = ({ children }: childrenPropsType) => {
   async function register(userData: UserToRegister) {
     try {
       await api.post("/user/register", userData);
+      toast({ title: "Successful register!" });
     } catch (error) {
       console.error("Error registering:", error);
     }

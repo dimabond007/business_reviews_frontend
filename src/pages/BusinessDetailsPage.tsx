@@ -11,6 +11,7 @@ import ReviewsList from "@/components/ReviewsList";
 import io from "socket.io-client";
 import { motion } from "framer-motion";
 import Loading from "@/components/Loading";
+import { toast } from "@/components/ui/use-toast";
 
 function BusinessDetailsPage() {
   const [business, setBusiness] = useState<Buisness | null>(null);
@@ -90,6 +91,7 @@ function BusinessDetailsPage() {
       });
       setNewReviewContent("");
       setIsAddInput(false);
+      toast({ title: "Review created successfuly" });
     } catch (error) {
       console.error(error);
     }
@@ -113,6 +115,7 @@ function BusinessDetailsPage() {
         prev.map((review) => (review._id === reviewId ? res.data : review))
       );
       setIsUpdateReviewInput(null);
+      toast({ title: `Review updated successfuly!` });
     } catch (error) {
       console.error(error);
     }
@@ -122,6 +125,7 @@ function BusinessDetailsPage() {
     try {
       await api.delete(`/business/${bsnssId}/reviews/${reviewId}`);
       setReviews((prev) => prev.filter((review) => review._id !== reviewId));
+      toast({ title: `Review deleted successfuly` });
     } catch (error) {
       console.error(error);
     }
