@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import Loading from "../components/Loading"; // Import the Loading component
 import { Link, Outlet, useSearchParams } from "react-router-dom";
 
-const BUISNESS_URL = "http://localhost:3000/api/business"; // Fixed typo in the URL constant
 
 function BusinessListPage() {
   const [businesses, setBusinesses] = useState<Buisness[]>([]);
@@ -15,7 +14,7 @@ function BusinessListPage() {
 
   useEffect(() => {
     async function fetchAllBusinesses() {
-      setIsLoading(true);
+
       const options = {
         params: {
           name: searchParams.get("name"),
@@ -26,7 +25,7 @@ function BusinessListPage() {
 
       try {
         const { data: fetchedBusinesses } = await api.get(
-          BUISNESS_URL,
+          "/business",
           options
         );
         setBusinesses(fetchedBusinesses);
@@ -186,11 +185,7 @@ function BusinessListPage() {
               >
                 <div className="relative h-40 sm:h-56 lg:h-64 overflow-hidden bg-black">
                   <img
-                    src={
-                      business.imageUrl
-                        ? `/src/images/${business.imageUrl}`
-                        : "https://placehold.co/600x400"
-                    }
+                    src={business.imageUrl?`/src/images/${business.imageUrl}`:"https://placehold.co/600x400/EEE/31343C?font=raleway&text=No%20image"}
                     alt={business.name}
                     className="w-full h-full object-cover opacity-80 transition-opacity duration-300 hover:opacity-100"
                   />

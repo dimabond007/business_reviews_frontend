@@ -43,7 +43,7 @@ function HomePage() {
           style={{ backgroundImage: `url(${BgImage})`, opacity: 0.8 }}
         ></motion.div>
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 container mx-auto px-4">
+        <div className="relative container mx-auto px-4">
           <motion.div
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
